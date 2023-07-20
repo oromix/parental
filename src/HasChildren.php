@@ -31,7 +31,7 @@ trait HasChildren
     {
         parent::registerModelEvent($event, $callback);
 
-        $childTypes = (new self)->getChildTypes();
+        $childTypes = (new static)->getChildTypes();
 
         if (static::class === self::class && $childTypes !== []) {
             // We don't want to register the callbacks that happen in the boot method of the parent, as they'll be called
@@ -234,6 +234,11 @@ trait HasChildren
     public function classFromAlias($aliasOrClass): string
     {
         $childTypes = $this->getChildTypes();
+
+        // Handling Enum casting for `type` column
+        if ($aliasOrClass instanceof \UnitEnum) {
+            $aliasOrClass = $aliasOrClass->value;
+        }
 
         if (isset($childTypes[$aliasOrClass])) {
             return $childTypes[$aliasOrClass];
