@@ -20,6 +20,17 @@ trait HasParent
      */
     public static function bootHasParent(): void
     {
+        if (method_exists(static::class, 'whenBooted')) {
+            static::whenBooted(function () {
+                static::configureHasParentModels();
+            });
+        } else {
+            static::configureHasParentModels();
+        }
+    }
+
+    protected static function configureHasParentModels(): void
+    {
         // This adds support for using Parental with standalone Eloquent, outside a normal Laravel app.
         if (static::getEventDispatcher() === null) {
             static::setEventDispatcher(new Dispatcher);
