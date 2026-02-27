@@ -8,10 +8,11 @@ use Parental\Tests\Models\Passenger;
 use Parental\Tests\Models\Plane;
 use Parental\Tests\Models\Vehicle;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ParentsAreAwareOfChildrenTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function vehicle_all_method_returns_child_models()
     {
         Car::create(['type' => Car::class]);
@@ -23,7 +24,7 @@ class ParentsAreAwareOfChildrenTest extends TestCase
         $this->assertInstanceOf(Plane::class, $vehicles[1]);
     }
 
-    /** @test */
+    #[Test]
     public function type_column_values_can_accept_type_aliases()
     {
         // Looks for "childTypes" property on Vehicle class.
@@ -36,7 +37,7 @@ class ParentsAreAwareOfChildrenTest extends TestCase
         $this->assertInstanceOf(Plane::class, $vehicles[1]);
     }
 
-    /** @test */
+    #[Test]
     public function vehicle_query_builder_get_method_returns_child_models()
     {
         Car::create(['type' => Car::class]);
@@ -50,7 +51,7 @@ class ParentsAreAwareOfChildrenTest extends TestCase
         $this->assertInstanceOf(Vehicle::class, $vehicles[2]);
     }
 
-    /** @test */
+    #[Test]
     public function has_many_returns_child_models()
     {
         $driver = Driver::create(['name' => 'Joe']);
@@ -66,7 +67,7 @@ class ParentsAreAwareOfChildrenTest extends TestCase
         $this->assertInstanceOf(Car::class, $vehicleB);
     }
 
-    /** @test */
+    #[Test]
     public function belongs_to_returns_child_models()
     {
         $car = Car::create(['type' => Car::class]);
@@ -80,7 +81,7 @@ class ParentsAreAwareOfChildrenTest extends TestCase
         $this->assertInstanceOf(Car::class, $vehicle);
     }
 
-    /** @test */
+    #[Test]
     public function many_to_many_returns_child_models()
     {
         $car = Car::create(['type' => Car::class]);

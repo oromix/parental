@@ -12,10 +12,11 @@ use Parental\Tests\Models\SledgeHammer;
 use Parental\Tests\Models\Tool;
 use Parental\Tests\Models\Vehicle;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class TypeColumnCanBeAliasedTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function type_column_values_can_accept_type_aliases()
     {
         Car::create(['type' => 'car']);
@@ -27,7 +28,7 @@ class TypeColumnCanBeAliasedTest extends TestCase
         $this->assertInstanceOf(Plane::class, $vehicles[1]);
     }
 
-    /** @test */
+    #[Test]
     public function type_aliases_are_set_on_creation()
     {
         $car = Car::create();
@@ -35,7 +36,7 @@ class TypeColumnCanBeAliasedTest extends TestCase
         $this->assertEquals('car', $car->fresh()->type);
     }
 
-    /** @test */
+    #[Test]
     public function type_column_values_can_accept_type_aliases_from_abstract_parent()
     {
         ChildFromAbstractParent::create(['type' => 'ChildFromAbstractParent']);
@@ -45,7 +46,7 @@ class TypeColumnCanBeAliasedTest extends TestCase
         $this->assertInstanceOf(ChildFromAbstractParent::class, $child[0]);
     }
 
-    /** @test */
+    #[Test]
     public function enums_can_be_used_as_type_alias()
     {
         if (phpversion() < 8.1) {

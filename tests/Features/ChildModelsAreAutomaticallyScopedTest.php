@@ -13,10 +13,11 @@ use Parental\Tests\Models\Trip;
 use Parental\Tests\Models\User;
 use Parental\Tests\Models\Vehicle;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ChildModelsAreAutomaticallyScopedTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_is_scoped_based_on_type_column()
     {
         Car::create();
@@ -26,7 +27,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertCount(1, Car::all());
     }
 
-    /** @test */
+    #[Test]
     public function child_without_type_column_isnt_scoped()
     {
         Admin::create();
@@ -36,7 +37,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertCount(2, Admin::all());
     }
 
-    /** @test */
+    #[Test]
     public function child_is_scoped_when_accessed_from_belongs_to()
     {
         $car = Car::create();
@@ -52,7 +53,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertNotNull($passenger->fresh()->vehicle);
     }
 
-    /** @test */
+    #[Test]
     public function child_is_scoped_when_accessed_from_has_many()
     {
         $driver = Driver::create(['name' => 'joe']);
@@ -63,7 +64,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertCount(1, $driver->cars);
     }
 
-    /** @test */
+    #[Test]
     public function child_is_scoped_when_accessed_from_belongs_to_many()
     {
         $car = Car::create();
@@ -75,7 +76,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertCount(2, $trip->vehicles);
     }
 
-    /** @test */
+    #[Test]
     public function child_is_scoped_when_accessed_from_has_one_through()
     {
         // Create root with children
@@ -96,7 +97,7 @@ class ChildModelsAreAutomaticallyScopedTest extends TestCase
         $this->assertFalse(ChildNode::whereId($childC->id)->whereHas('parent')->exists());
     }
 
-    /** @test */
+    #[Test]
     public function child_is_scoped_when_accessed_from_has_many_through()
     {
         // Create root with children

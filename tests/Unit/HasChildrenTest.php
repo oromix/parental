@@ -8,10 +8,11 @@ use Parental\Tests\Unit\HasChildren\Foo;
 use Parental\Tests\Unit\HasChildren\HasChildrenChildModel;
 use Parental\Tests\Unit\HasChildren\HasChildrenParentModel;
 use Parental\Tests\Unit\HasChildren\HasChildrenParentModelWithMethodTypes;
+use PHPUnit\Framework\Attributes\Test;
 
 class HasChildrenTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_model_mutators_are_not_instigated()
     {
         $model = (new HasChildrenParentModel)->newFromBuilder([
@@ -22,7 +23,7 @@ class HasChildrenTest extends TestCase
         $this->assertEquals($model->mutatorWasCalled, false);
     }
 
-    /** @test */
+    #[Test]
     public function child_model_types_can_be_set_via_method()
     {
         $types = (new HasChildrenParentModelWithMethodTypes)->getChildTypes();
