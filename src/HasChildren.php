@@ -41,12 +41,16 @@ trait HasChildren
     {
         parent::registerModelEvent($event, $callback);
 
+        // Only the parent class should forward events to children. When called
+        // from a child class, the child already received this event via the
+        // parent::registerModelEvent call above, so we'll skip for that.
         if (static::class !== self::class) {
             return;
         }
 
-        // We don't want to register the callbacks that happen during the boot lifecycle of the parent,
-        // as they'll be called from the child's boot lifecycle as well.
+        // Don't forward events to children models during the parent's boot
+        // lifecycle, as the children will also be booting and will also
+        // register these events themselves via their boot lifecycle.
         if (self::parentIsBooting()) {
             return;
         }
