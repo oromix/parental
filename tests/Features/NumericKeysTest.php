@@ -6,10 +6,11 @@ use Parental\Tests\Models\Message;
 use Parental\Tests\Models\TextMessage;
 use Parental\Tests\Models\VideoMessage;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class NumericKeysTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_type_keys_can_be_numeric(): void
     {
         $textMessage = Message::create(['type' => 1]);
@@ -19,7 +20,7 @@ class NumericKeysTest extends TestCase
         $this->assertInstanceOf(VideoMessage::class, $videoMessage);
     }
 
-    /** @test */
+    #[Test]
     public function can_become_when_using_numeric_keys(): void
     {
         $textMessage = Message::create(['type' => 1]);

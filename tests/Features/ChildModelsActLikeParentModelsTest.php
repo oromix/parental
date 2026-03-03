@@ -7,10 +7,11 @@ use Parental\Tests\Models\Driver;
 use Parental\Tests\Models\Passenger;
 use Parental\Tests\Models\Vehicle;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ChildModelsActLikeParentModelsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function vehicle_can_access_belongs_to_relationship_on_car_model()
     {
         $car = Car::create([
@@ -22,7 +23,7 @@ class ChildModelsActLikeParentModelsTest extends TestCase
         $this->assertEquals($vehicle->driver->id, $car->driver->id);
     }
 
-    /** @test */
+    #[Test]
     public function vehicle_can_access_has_many_relationship_on_car_model()
     {
         $car = Car::create();
@@ -35,7 +36,7 @@ class ChildModelsActLikeParentModelsTest extends TestCase
         $this->assertEquals($vehicle->passengers->pluck('id'), $car->passengers->pluck('id'));
     }
 
-    /** @test */
+    #[Test]
     public function vehicle_can_access_many_to_many_relationship_on_car_model()
     {
         $car = Car::create();
@@ -47,7 +48,7 @@ class ChildModelsActLikeParentModelsTest extends TestCase
         $this->assertEquals($vehicle->fresh()->trips->pluck('id'), $car->fresh()->trips->pluck('id'));
     }
 
-    /** @test */
+    #[Test]
     public function guarded_or_fillable_models_have_raw_attributes_like_timestamps()
     {
         $vehicle = Vehicle::create()->fresh();

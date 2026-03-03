@@ -7,10 +7,11 @@ use Parental\Tests\Unit\HasParent\ChildModel;
 use Parental\Tests\Unit\HasParent\ChildModelWithoutTrait;
 use Parental\Tests\Unit\HasParent\ParentModel;
 use Parental\Tests\Unit\HasParent\RelatedModel;
+use PHPUnit\Framework\Attributes\Test;
 
 class HasParentTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_model_has_table_name_of_parent_model()
     {
         $this->assertEquals('parent_models', (new ParentModel)->getTable());
@@ -18,7 +19,7 @@ class HasParentTest extends TestCase
         $this->assertEquals('child_model_without_traits', (new ChildModelWithoutTrait)->getTable());
     }
 
-    /** @test */
+    #[Test]
     public function child_model_has_same_foreign_key_as_parent()
     {
         $this->assertEquals('parent_model_id', (new ParentModel)->getForeignKey());
@@ -26,7 +27,7 @@ class HasParentTest extends TestCase
         $this->assertEquals('child_model_without_trait_id', (new ChildModelWithoutTrait)->getForeignKey());
     }
 
-    /** @test */
+    #[Test]
     public function child_model_has_same_pivot_table_name_as_parent()
     {
         $related = new RelatedModel;

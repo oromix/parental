@@ -9,10 +9,11 @@ use Parental\Tests\Models\Mallet;
 use Parental\Tests\Models\SledgeHammer;
 use Parental\Tests\Models\Vehicle;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ModelsCanBecomeOtherTypesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_model_can_become_another_child_type()
     {
         $car = Car::create(['driver_id' => 1]);
@@ -25,7 +26,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertEquals($car->updated_at, $vehicle->updated_at);
     }
 
-    /** @test */
+    #[Test]
     public function become_marks_the_instance_as_existing()
     {
         $clawHammer = ClawHammer::create();
@@ -35,7 +36,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertTrue($sledgeHammer->exists);
     }
 
-    /** @test */
+    #[Test]
     public function become_preserves_relationships()
     {
         $car = Car::create(['driver_id' => 1]);
@@ -46,7 +47,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertTrue($vehicle->relationLoaded('driver'));
     }
 
-    /** @test */
+    #[Test]
     public function become_preserves_connection()
     {
         $clawHammer = ClawHammer::create();
@@ -57,7 +58,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertEquals($connectionName, $sledgeHammer->getConnectionName());
     }
 
-    /** @test */
+    #[Test]
     public function become_can_transform_parent_to_child()
     {
         $vehicle = Vehicle::create(['type' => 'truck']);
@@ -72,7 +73,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertEquals($vehicle->id, $car->id);
     }
 
-    /** @test */
+    #[Test]
     public function become_sets_the_correct_type_alias()
     {
         $clawHammer = ClawHammer::create();
@@ -82,7 +83,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertEquals('mallet', $mallet->type);
     }
 
-    /** @test */
+    #[Test]
     public function come_calls_model_events_on_specified_model(): void
     {
         $carEventCalled = false;
@@ -105,7 +106,7 @@ class ModelsCanBecomeOtherTypesTest extends TestCase
         $this->assertTrue($carEventCalled);
     }
 
-    /** @test */
+    #[Test]
     public function fires_becoming_model_event(): void
     {
         $becomingEventCalledCount = 0;

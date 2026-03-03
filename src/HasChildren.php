@@ -19,11 +19,6 @@ trait HasChildren
     /**
      * @var bool
      */
-    protected static $parentBootMethods;
-
-    /**
-     * @var bool
-     */
     protected $hasChildren = true;
 
     /**
@@ -46,38 +41,39 @@ trait HasChildren
     {
         parent::registerModelEvent($event, $callback);
 
+        // Only the parent class should forward events to children. When called
+        // from a child class, the child already received this event via the
+        // parent::registerModelEvent call above, so we'll skip for that.
+        if (static::class !== self::class) {
+            return;
+        }
+
+        // Don't forward events to children models during the parent's boot
+        // lifecycle, as the children will also be booting and will also
+        // register these events themselves via their boot lifecycle.
+        if (self::parentIsBooting()) {
+            return;
+        }
+
         $childTypes = (new static)->getChildTypes();
 
-        if (static::class === self::class && $childTypes !== []) {
-            // We don't want to register the callbacks that happen in the boot method of the parent, as they'll be called
-            // from the child's boot method as well.
-            if (! self::parentIsBooting()) {
-                foreach ($childTypes as $childClass) {
-                    if ($childClass !== self::class) {
-                        $childClass::registerModelEvent($event, $callback);
-                    }
-                }
+        foreach ($childTypes as $childClass) {
+            if ($childClass !== self::class) {
+                $childClass::registerModelEvent($event, $callback);
             }
         }
     }
 
+    /**
+     * Determine if the parent model is currently in its boot lifecycle.
+     *
+     * This checks whether bootIfNotBooted is in the call stack, which covers
+     * the entire boot lifecycle including boot(), booted(), and whenBooted() callbacks.
+     */
     protected static function parentIsBooting(): bool
     {
-        if (! isset(self::$parentBootMethods)) {
-            self::$parentBootMethods[] = 'boot';
-
-            foreach (class_uses_recursive(self::class) as $trait) {
-                self::$parentBootMethods[] = 'boot' . class_basename($trait);
-            }
-
-            self::$parentBootMethods = array_flip(self::$parentBootMethods);
-        }
-
         foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $trace) {
-            $class = isset($trace['class']) ? $trace['class'] : null;
-            $function = isset($trace['function']) ? $trace['function'] : '';
-
-            if ($class === self::class && isset(self::$parentBootMethods[$function])) {
+            if (($trace['function'] ?? '') === 'bootIfNotBooted') {
                 return true;
             }
         }

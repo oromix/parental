@@ -5,10 +5,11 @@ namespace Parental\Tests\Features;
 use Parental\Tests\Models\Event;
 use Parental\Tests\Models\Workshop;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ChildModelFillablesMergeWithParentModelFillablesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function child_fillables_are_merged_with_parent_fillables()
     {
         $workshop = Workshop::create([

@@ -22,13 +22,19 @@ class Vehicle extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
-        static::created(function ($model) {
-            $model->boot_count = $model->boot_count ? $model->boot_count + 1 : 1;
-        });
+        if (method_exists(static::class, 'whenBooted')) {
+            static::whenBooted(function () {
+                static::created(function ($model) {
+                    $model->boot_count = $model->boot_count ? $model->boot_count + 1 : 1;
+                });
+            });
+        } else {
+            static::created(function ($model) {
+                $model->boot_count = $model->boot_count ? $model->boot_count + 1 : 1;
+            });
+        }
     }
 
     public function driver()

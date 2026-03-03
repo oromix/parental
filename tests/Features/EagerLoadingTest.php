@@ -8,6 +8,7 @@ use Parental\Tests\Models\TextMessage;
 use Parental\Tests\Models\Video;
 use Parental\Tests\Models\VideoMessage;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class EagerLoadingTest extends TestCase
 {
@@ -20,7 +21,7 @@ class EagerLoadingTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_on_collection(): void
     {
         $textMessage = TextMessage::create();
@@ -39,7 +40,7 @@ class EagerLoadingTest extends TestCase
         $this->assertTrue($messages->whereInstanceOf(VideoMessage::class)->every->relationLoaded('video'));
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_count_on_collection(): void
     {
         $textMessage = TextMessage::create();
@@ -56,7 +57,7 @@ class EagerLoadingTest extends TestCase
         $this->assertEquals($messages->firstWhere(fn ($message) => $message instanceof TextMessage)->images_count, 1);
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_on_paginator(): void
     {
         $textMessage = TextMessage::create();
@@ -77,7 +78,7 @@ class EagerLoadingTest extends TestCase
         $this->assertEquals($messages->firstWhere(fn ($message) => $message instanceof TextMessage)->images_count, 1);
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_from_model(): void
     {
         $textMessage = TextMessage::create();
@@ -93,7 +94,7 @@ class EagerLoadingTest extends TestCase
         $this->assertTrue($message->relationLoaded('images'));
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_counts_on_model(): void
     {
         $textMessage = TextMessage::create();
@@ -109,7 +110,7 @@ class EagerLoadingTest extends TestCase
         $this->assertEquals(1, $message->images_count);
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_from_query(): void
     {
         $textMessage = TextMessage::create();
@@ -128,7 +129,7 @@ class EagerLoadingTest extends TestCase
         $this->assertTrue($messages->whereInstanceOf(VideoMessage::class)->every->relationLoaded('video'));
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_count_from_query(): void
     {
         $textMessage = TextMessage::create();
@@ -146,7 +147,7 @@ class EagerLoadingTest extends TestCase
         $this->assertNull($messages->firstWhere(fn ($message) => $message instanceof VideoMessage)->images_count);
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_from_relationship_query(): void
     {
         $room = Room::create(['name' => 'General']);
@@ -167,7 +168,7 @@ class EagerLoadingTest extends TestCase
         $this->assertTrue($messages->whereInstanceOf(VideoMessage::class)->every->relationLoaded('video'));
     }
 
-    /** @test */
+    #[Test]
     public function eager_load_children_count_from_relationship_query(): void
     {
         $room = Room::create(['name' => 'General']);

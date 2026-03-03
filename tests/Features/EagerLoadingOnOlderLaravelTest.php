@@ -7,6 +7,8 @@ use Parental\Tests\Models\TextMessage;
 use Parental\Tests\Models\Video;
 use Parental\Tests\Models\VideoMessage;
 use Parental\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 
 class EagerLoadingOnOlderLaravelTest extends TestCase
@@ -132,11 +134,8 @@ class EagerLoadingOnOlderLaravelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider eagerLoadingScenarios
-     */
+    #[Test]
+    #[DataProvider('eagerLoadingScenarios')]
     public function throws_exception_when_eager_loading_on_older_laravel_versions($scenario): void
     {
         $this->expectException(RuntimeException::class);
