@@ -168,7 +168,7 @@ trait HasChildren
         $instance = $this->newRelatedInstance($related);
 
         if (is_null($foreignKey) && $instance->hasParent) {
-            $foreignKey = Str::snake($instance->getClassNameForRelationships()) . '_' . $instance->getKeyName();
+            $foreignKey = Str::snake($instance->getClassNameForHasChildrenRelationships()) . '_' . $instance->getKeyName();
         }
 
         if (is_null($relation)) {
@@ -218,7 +218,7 @@ trait HasChildren
         $instance = $this->newRelatedInstance($related);
 
         if (is_null($table) && $instance->hasParent) {
-            $table = $this->joiningTable($instance->getClassNameForRelationships());
+            $table = $this->joiningTable($instance->getClassNameForHasChildrenRelationships());
         }
 
         return parent::belongsToMany(
@@ -232,7 +232,7 @@ trait HasChildren
         );
     }
 
-    public function getClassNameForRelationships(): string
+    public function getClassNameForHasChildrenRelationships(): string
     {
         return class_basename($this);
     }
